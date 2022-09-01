@@ -91,7 +91,9 @@ body {
   height: 140px;
   border: 2px solid lightgray;
   border-radius: 8px;
-  margin-left: 350px;
+  /*margin-left: 350px;*/
+  /*margin-top: 50px;*/
+  margin: 0 auto;
   margin-top: 50px;
 }
 
@@ -132,11 +134,12 @@ body {
 }
 
 .game-container {
-  position: absolute;
-  margin-top: 10px;
+  /*position: absolute;*/
   width: 600px;
   height: 500px;
-  left: 450px;
+  margin: 0 auto;
+  /*left: 450px;*/
+  /*margin-top: 10px;*/
 }
 
 .paper-button, .scissors-button, .rock-button {
@@ -198,7 +201,8 @@ body {
 }
 
 .game-ongone {
-  position: absolute;
+  /*position: absolute;*/
+  margin: 0 auto;
   width: 800px;
   left: 350px;
   height: calc(100vh - (50px + 140px));
