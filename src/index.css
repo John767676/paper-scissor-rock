@@ -1,13 +1,352 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Указываем box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+  padding: 0;
 }
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Выставляем основные настройки по-умолчанию для body */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Указываем понятную периодичность в потоке данных у article*/
+article > * + * {
+  margin-top: 1em;
+}
+
+/* Наследуем шрифты для инпутов и кнопок */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* code starts here */
+
+body {
+  background: radial-gradient(circle farthest-corner at 750px -3000px, #fff, #050b33);
+  overflow-y: hidden;
+}
+
+.header {
+  width: 800px;
+  height: 140px;
+  border: 2px solid lightgray;
+  border-radius: 8px;
+  margin-left: 350px;
+  margin-top: 50px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.name-of-game {
+  color: white;
+  width: 80px;
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 0.8;
+  padding: 20px;
+}
+
+.score {
+  background-color: #fff;
+  width: 150px;
+  height: 110px;
+  margin: 15px 20px;
+  border-radius: 8px;
+}
+
+.wrapper-score {
+  padding: 15px 0;
+  text-align: center;
+  color: #6A5ACD;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.score-num {
+  font-size: 4rem;
+  color: #687894
+;
+}
+
+.game-container {
+  position: absolute;
+  margin-top: 10px;
+  width: 600px;
+  height: 500px;
+  left: 450px;
+}
+
+.paper-button, .scissors-button, .rock-button {
+  border-radius: 50%;
+  width: 190px;
+  height: 190px;
+  cursor: pointer;
+}
+
+/*.paper-button, .scissors-button, .rock-button :hover {*/
+/*  transform: translateY(4px);*/
+/*}*/
+
+.paper-button {
+  border: 30px solid #6666f3;
+  position: relative;
+  top: 50px;
+  left: 40px;
+  box-shadow: 0 9px #39398a;
+}
+
+.paper-button:active {
+  box-shadow: 0 6px #30306e;
+  transform: translateY(4px);
+}
+
+.scissors-button {
+  border: 30px solid #ffb311;
+  position: relative;
+  top: -140px;
+  left: 360px;
+  box-shadow: 0 9px #c28700;
+}
+
+.scissors-button:active {
+  box-shadow: 0 6px #855b00;
+  transform: translateY(4px);
+  animation-name: pickedP;
+}
+
+.rock-button {
+  border: 30px solid #fb607f;
+  position: relative;
+  top: -100px;
+  left: 200px;
+  box-shadow: 0 9px #8d3746;
+}
+
+.rock-button:active {
+  box-shadow: 0 6px #642730;
+  transform: translateY(4px);
+}
+
+/* game ongone */
+
+.game {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-ongone {
+  position: absolute;
+  width: 800px;
+  left: 350px;
+  height: calc(100vh - (50px + 140px));
+}
+
+
+.paper-button-ongone {
+  border-radius: 50%;
+  border: 30px solid #6666f3;
+  box-shadow: 0 9px #39398a;
+  /*position: relative;*/
+  width: 250px;
+  height: 250px;
+  /*top: 150px;*/
+  /*left: 400px;*/
+}
+
+.scissor-button-ongone {
+  border-radius: 50%;
+  border: 30px solid #ffb311;
+  box-shadow: 0 9px #c28700;
+  /*position: relative;*/
+  width: 250px;
+  height: 250px;
+  /*top: 150px;*/
+  /*left: 400px;*/
+}
+
+.rock-button-ongone {
+  border-radius: 50%;
+  border: 30px solid #fb607f;
+  box-shadow: 0 9px #8d3746;
+  /*position: relative;*/
+  width: 250px;
+  height: 250px;
+  /*top: 150px;*/
+  /*left: 400px;*/
+}
+/* comp */
+
+.paper-button-ongone-comp {
+  border-radius: 50%;
+  border: 30px solid #6666f3;
+  box-shadow: 0 9px #39398a;
+  /*position: relative;*/
+  width: 250px;
+  height: 250px;
+  /*top: 150px;*/
+  left: calc(600px - 500px);
+}
+
+.scissor-button-ongone-comp {
+  border-radius: 50%;
+  border: 30px solid #ffb311;
+  box-shadow: 0 9px #c28700;
+  /*position: relative;*/
+  width: 250px;
+  height: 250px;
+  /*top: 150px;*/
+  left: calc(600px - 500px);
+}
+
+.rock-button-ongone-comp {
+  border-radius: 50%;
+  border: 30px solid #fb607f;
+  box-shadow: 0 9px #8d3746;
+  /*position: relative;*/
+  width: 250px;
+  height: 250px;
+  /*top: 150px;*/
+  left: calc(600px - 500px);
+}
+
+.empty-div-ongone-comp {
+  background-color: #071049;
+  border-radius: 50%;
+  /*position: relative;*/
+  width: 200px;
+  height: 200px;
+
+  top: -220px;
+  left: calc(600px - 210px);
+}
+
+/*.picks {*/
+/*  position: relative;*/
+/*  display: flex;*/
+/*  color: white;*/
+/*  justify-content: space-between;*/
+/*  width: 750px;*/
+/*  height: 30px;*/
+/*  font-size: 24px;*/
+/*  font-weight: bold;*/
+/*  top: 90px;*/
+/*  left: 53px;*/
+/*  letter-spacing: 1.5px;*/
+/*}*/
+
+.comp {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  position: relative;
+  bottom: 20px;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* result */
+
+.win-div, .lose-div, .draw-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*position: absolute;*/
+  left: 265px;
+  color: white;
+  width: 250px;
+  height: 200px;
+}
+
+.buttons {
+  position: relative;
+  top: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.res-text {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.res-button {
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: white;
+  width: 207px;
+  height: 55px;
+  font-weight: bold;
+}
+
+
+
+
