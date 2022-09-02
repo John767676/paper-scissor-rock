@@ -19,7 +19,7 @@ function App() {
         setTimeout(() => {
             setComputerPick(items[Math.floor(Math.random() * items.length)])
             setNumOfClick(prevState => prevState + 1)
-        },2000)
+        },800)
     }
 
     useEffect(() => {
@@ -173,7 +173,10 @@ function App() {
                                           </button>
                                       </div>
                                       :
-                                      <div className="empty-div-ongone-comp"></div>
+                                      <div className='modal'>
+                                          <span className="comp">THE HOUSE PICKED</span>
+                                          <div className="empty-div-ongone-comp"></div>
+                                      </div>
                           }
                       </div>
                   </div>
