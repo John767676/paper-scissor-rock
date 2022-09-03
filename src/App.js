@@ -1,67 +1,56 @@
 import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {resetPick, setUserPick} from "./store/reducers/user/userActions";
+import {resetComputer, setCompPick} from "./store/reducers/comp/comActions";
+import {drawAction, loseAction, resetResultAction, winAction} from "./store/reducers/logic/logicActions";
 
 
 function App() {
 
-    const items = ['paper','scissor','rock']
-
-    const [isPicked,setIsPicked] = useState(false)
-    const [count,setCount] = useState(0)
-    const [numOfClick,setNumOfClick] = useState(0)
-    const [result,setResult] = useState('')
-
-    const [userPick,setUserPick] = useState('')
-    const [computerPick,setComputerPick] = useState('')
+    const dispatch = useDispatch()
+    const state = useSelector(state => state)
 
     const handleChose = (e) => {
-        setUserPick(e.target.value)
-        setIsPicked(true)
+        dispatch(setUserPick(e.target.value))
         setTimeout(() => {
-            setComputerPick(items[Math.floor(Math.random() * items.length)])
-            setNumOfClick(prevState => prevState + 1)
+            dispatch(setCompPick())
         },800)
     }
 
     useEffect(() => {
-        if (userPick === 'paper') {
-            if (computerPick === 'rock') {
-                setCount(prevState => prevState + 1)
-                setResult('win')
-            } else if (computerPick === 'scissor') {
-                setCount(0)
-                setResult('lose')
+        if (state.userReducer.userPick === 'paper') {
+            if (state.compReducer.computerPick === 'rock') {
+                dispatch(winAction())
+            } else if (state.compReducer.computerPick === 'scissor') {
+                dispatch(loseAction())
             } else {
-                setResult('draw')
+                dispatch(drawAction())
             }
-        } else if (userPick === 'scissor') {
-            if (computerPick === 'paper') {
-                setCount(prevState => prevState + 1)
-                setResult('win')
-            } else if (computerPick === 'rock') {
-                setCount(0)
-                setResult('lose')
+        } else if (state.userReducer.userPick === 'scissor') {
+            if (state.compReducer.computerPick === 'paper') {
+                dispatch(winAction())
+            } else if (state.compReducer.computerPick === 'rock') {
+                dispatch(loseAction())
             } else {
-                setResult('draw')
+                dispatch(drawAction())
             }
         } else {
-            if (computerPick === 'scissor') {
-                setCount(prevState => prevState + 1)
-                setResult('win')
-            } else if (computerPick === 'paper') {
-                setCount(0)
-                setResult('lose')
+            if (state.compReducer.computerPick === 'scissor') {
+                dispatch(winAction())
+            } else if (state.compReducer.computerPick === 'paper') {
+                dispatch(loseAction())
             } else {
-                setResult('draw')
+                dispatch(drawAction())
             }
         }
-    },[numOfClick])
+    },[state.compReducer.numOfClick])
 
     useEffect(() => {
-        if (isPicked === false) {
-            setComputerPick('')
-            setResult('')
+        if (state.userReducer.isPicked === false) {
+            dispatch(resetComputer())
+            dispatch(resetResultAction())
         }
-    }, [isPicked])
+    }, [state.userReducer.isPicked])
 
   return (
       <div className='field'>
@@ -76,14 +65,14 @@ function App() {
                       <div className="wrapper-score">
                           SCORE
                           <div className="score-num">
-                              {count}
+                              {state.logicReducer.count}
                           </div>
                       </div>
                   </div>
               </div>
           </div>
           <div className="game">
-              {isPicked === false ?
+              {state.userReducer.isPicked === false ?
                   <div className="game-container">
                       <div className="paper">
                           <button className="paper-button" onClick={handleChose} value='paper'
@@ -107,7 +96,7 @@ function App() {
                   :
                   <div className='game-ongone'>
                       <div className="buttons">
-                          {userPick === 'paper' ?
+                          {state.userReducer.userPick === 'paper' ?
                               <div className='modal'>
                                   <span className="comp">YOU PICKED</span>
                                   <button className="paper-button-ongone"
@@ -115,7 +104,7 @@ function App() {
                                   >
                                   </button>
                               </div>
-                              : userPick === 'scissor' ?
+                              : state.userReducer.userPick === 'scissor' ?
                                   <div className='modal'>
                                       <span className="comp">YOU PICKED</span>
                                       <button className="scissor-button-ongone"
@@ -132,23 +121,23 @@ function App() {
                                       </button>
                                   </div>
                           }
-                          {result === 'win' ?
+                          {state.logicReducer.result === 'win' ?
                                   <div className='win-div'>
                                       <span className='res-text'>YOU WIN</span>
-                                      <button className='res-button' style={{color: '#687894'}} onClick={() => setIsPicked(false)}>PLAY AGAIN</button>
+                                      <button className='res-button' style={{color: '#687894'}} onClick={() => dispatch(resetPick())}>PLAY AGAIN</button>
                                   </div>
-                                  : result === 'lose' ?
+                                  : state.logicReducer.result === 'lose' ?
                                       <div className='lose-div'>
                                           <span className='res-text'>YOU LOSE</span>
-                                          <button className='res-button' style={{color: 'red'}} onClick={() => setIsPicked(false)}>PLAY AGAIN</button>
-                                      </div> : result === 'draw' ?
+                                          <button className='res-button' style={{color: 'red'}} onClick={() => dispatch(resetPick())}>PLAY AGAIN</button>
+                                      </div> : state.logicReducer.result === 'draw' ?
                                       <div className='draw-div'>
                                           <span className='res-text'>IT'S DRAW</span>
-                                          <button className='res-button' style={{color: '#D35400'}} onClick={() => setIsPicked(false)}>PLAY AGAIN</button>
+                                          <button className='res-button' style={{color: '#D35400'}} onClick={() => dispatch(resetPick())}>PLAY AGAIN</button>
                                       </div> :
                                       <div className='empty-div'></div>
                           }
-                          {computerPick === 'paper' ?
+                          {state.compReducer.computerPick === 'paper' ?
                               <div className='modal'>
                                   <span className="comp">THE HOUSE PICKED</span>
                                   <button className="paper-button-ongone-comp"
@@ -156,7 +145,7 @@ function App() {
                                   >
                                   </button>
                               </div>
-                              : computerPick === 'scissor' ?
+                              : state.compReducer.computerPick === 'scissor' ?
                                   <div className='modal'>
                                       <span className="comp">THE HOUSE PICKED</span>
                                       <button className="scissor-button-ongone-comp"
@@ -164,7 +153,7 @@ function App() {
                                       >
                                       </button>
                                   </div>
-                                  : computerPick === 'rock' ?
+                                  : state.compReducer.computerPick === 'rock' ?
                                       <div className='modal'>
                                           <span className="comp">THE HOUSE PICKED</span>
                                           <button className="rock-button-ongone-comp"
@@ -182,9 +171,9 @@ function App() {
                   </div>
               }
           </div>
-          <div className="rules">
+          {/*<div className="rules">*/}
 
-          </div>
+          {/*</div>*/}
       </div>
   );
 }
